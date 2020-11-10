@@ -3,17 +3,17 @@
    
 <!-- LogIn formular -->
 <form  class="login-form" @submit.prevent="autorizacija">
-  <tr v-show="isAuthorized ==='false'">
+  <tr v-show="!isAuthorized ==='true'">
     <td><label  for="username_login" ><strong>Username:</strong> </label></td>
     <td><input id="username_login" type="text" placeholder="Unesite username" v-model="username"/></td>
   </tr>
-  <tr v-show="isAuthorized ==='false'">
+  <tr v-show="!isAuthorized ==='true'">
     <td> <label for="password_login" ><strong>Password:</strong> </label></td>
     <td><input id="password_login" type="password" placeholder="Unesite sifru" v-model="password"/></td>
   </tr>
       <!-- User Panel -->
       <span class="submit-wrapper">
-          <input v-if="isAuthorized==='false'" type="submit" value="Log In"/>
+          <input v-if="!isAuthorized==='true'" type="submit" value="Log In"/>
           <div v-else><span class="ml-1 mt-2" id="pozdrav">Welcome {{username_show}}</span><span class="slicica-profil" :class="username_show"></span>
             <input  @click="otkazivanje()" class=" bg-danger ml-1 mt-1"  type="button" value="Otkazi igru" v-show="isAuthorized ==='true' && !otkazani.some(e => e.username === username_show) "/>
             <input v-show="isAuthorized ==='true' && otkazani.some(e => e.username === username_show) && !players.some(e => e.name === username_show)" class="bg-primary mt-1 ml-1" @click="ponovnaPrijava()" type="button" value="Vrati se u neodredjene" /> 
