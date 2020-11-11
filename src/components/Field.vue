@@ -1,20 +1,23 @@
 <template >
   <div >
+    <!-- Uputstva za prijavu! -->
     <div v-show="username" id="uputstva">
         > Za potvrdu dolaska se prijavi klikom na slobodnu poziciju (fudbalsku loptu) na terenu. Takodje mozes da prijavis gej drugara tako sto ces uneti njegovo ime i kliknuti na dugme "Prijavi drugara".<br>
-        > Za otkazivanje klikni na dugme "Otkazi igru" ili otkazi za drugara klikom na odgovarajuce crveno dugme.<br>
+        > Za otkazivanje dolaska klikni na dugme "Otkazi igru" ili otkazi za drugara klikom na odgovarajuce crveno dugme.<br>
         > Ako si vec otkazao, ponovo se vrati u "neizjasnjene" klikom na plavo dugme.<br>
         <b class="text-danger">>>>Ako promena nije odmah prikzana ponovo učitaj stranicu!!!</b>
     </div>
+    <!-- Broj prijavljenih -->
   <div class="field">  
-    <span v-if="players.length < 10" class="prijavljeni bolder rounded  h5 bg-light p-1">Trenutno prijavljeno <b>{{players.length}}</b> igraca</span>
+    <span v-if="players.length < 10" class="prijavljeni bolder rounded  h5 bg-light p-1">Trenutno prijavljeno <b class="bg-dark text-light p-1">{{players.length}}</b> igraca</span>
     <span v-else class="h4 text-light bg-danger p-3 rounded bold ml-3 "> URAAAAAA!!! IGRA SE!!! <b class="rounded-circle text-danger p-2 bg-light">{{players.length}}</b> GEJEVA SE PRIJAVILO!!!</span>
+    <!-- Teren -->
     <div  v-for="(polje, index) in polja"  @click="[selectedIndex(index), modalf()]" class="player" :class="[{default_slika: pozicije.indexOf(polje.name) == -1 && stalni_igraci.indexOf(polje.name) == -1},{blur: pozicije.indexOf(polje.name) == -1}, polje.position, polje.name]"   :key="polje.position" >{{polje.name}} </div>
-
+    <!-- Modal za prijavu -->
      <div v-show="modal" class="mod">
        <span @click="modal=false" class="float-right">x</span>
        <div class="slicica" :class="username" @click="[registruj(), ponovnaPrijava()]">Prijavi sebe</div>
-   
+    <hr>
       <form @submit.prevent="[registruj_drugara(), ponovnaPrijava()]">       
         <small>ili unesi ime drugara i klikni na dugme</small>               
         <input placeholder="" type="text" v-model="drugar" />
@@ -38,7 +41,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+
 export default {
   name: 'Field',
   props: {
@@ -52,13 +55,18 @@ export default {
         { name: "aml_home", position: "aml_home" },
         { name: "amr_home", position: "amr_home" },
         { name: "cf_home", position: "cf_home" },
+        { name: "sub1_home", position: "sub1_home" },
+        { name: "sub2_home", position: "sub2_home" },
         { name: "gk_away", position: "gk_away" },
         { name: "dmf_away", position: "dmf_away" },
         { name: "aml_away", position: "aml_away" },
         { name: "amr_away", position: "amr_away" },
         { name: "cf_away", position: "cf_away" },
+        { name: "sub1_away", position: "sub1_away" }, 
+        { name: "sub2_away", position: "sub2_away" }, 
+
       ],
-        pozicije: ["gk_home","dmf_home","aml_home","amr_home", "cf_home","gk_away","dmf_away","aml_away","amr_away","cf_away"],
+        pozicije: ["gk_home","dmf_home","aml_home","amr_home", "cf_home","sub1_home","sub2_home","gk_away","dmf_away","aml_away","amr_away","cf_away", "sub1_away", "sub2_away"],
         stalni_igraci:['radosavb', 'brankog', 'filiph', 'milosd', 'vladimirb', 'vladimirz', 'nikolaz', 'nikolao', 'nikolac', 'goranp', 'srdjanv', 'milosj', 'markov', 'branislavm', 'bogdanm'],
          players:[],
          users:[],
@@ -176,14 +184,13 @@ export default {
 #uputstva {
   padding: 5px;
   border-radius: 8px;
-margin-left: 15px;
-line-height: 15px;
-margin-bottom: 15px;
-font-weight: bold;
-border: 1px solid rgb(80, 80, 80);
-
+  margin-left: 15px;
+  line-height: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  border: 1px solid rgb(124, 124, 124);
 }
-#uputstva p
+
 .prijavljeni{
   border: 2px solid gray;
 }
@@ -305,6 +312,16 @@ padding: 5px;
   left: 38%;
   border: 2px solid royalblue;
 }
+.sub1_home {
+  top: 570px;
+  left: 6%;
+  border: 2px solid royalblue;
+}
+.sub2_home {
+  top: 570px;
+  left: 18%;
+  border: 2px solid royalblue;
+}
 .gk_away {
   top: 250px;
   left: 88%;
@@ -328,6 +345,16 @@ padding: 5px;
 .cf_away {
   top: 250px;
   left: 53%;
+  border: 2px solid rgb(209, 58, 209);
+}
+.sub1_away {
+  top: 570px;
+  left: 72%;
+  border: 2px solid rgb(209, 58, 209);
+}
+.sub2_away {
+  top: 570px;
+  left: 85%;
   border: 2px solid rgb(209, 58, 209);
 }
 
@@ -375,6 +402,12 @@ background-image: url('../assets/markov.jpg');
 }
 .rastko{
     background-image: url('../assets/rastko.jpg');
+}
+.vladimirm{
+    background-image: url('../assets/vladimirm.jpg');
+}
+.vukasink{
+    background-image: url('../assets/vukasink.jpg');
 }
 .default_slika{
     background-image: url('../assets/default.jpg');

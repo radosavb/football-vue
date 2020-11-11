@@ -1,6 +1,6 @@
 <template>
-  <nav>
-      <div class="nav-bar">
+  <nav  class="nav-bar">
+      <div>
         <span class="logo">Geh Football</span>
             
         <span class="termin">Sledeći termin:<b class="termin-datum"> {{termin}}</b></span>
@@ -26,6 +26,7 @@ export default {
   height: 60px;
   margin-bottom: 15px;
   color: white;
+  width: 100%;
 
 }
 .logo {

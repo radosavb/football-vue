@@ -1,20 +1,8 @@
 <template>
-  <div class="admin-panel">
-   
-<!-- LogIn formular -->
-<form  class="login-form" @submit.prevent="autorizacija">
-  <tr v-show="isAuthorized ==='false'">
-    <td><label  for="username_login" ><strong>Username:</strong> </label></td>
-    <td><input id="username_login" type="text" placeholder="Unesite username" v-model="username"/></td>
-  </tr>
-  <tr v-show="isAuthorized ==='false'">
-    <td> <label for="password_login" ><strong>Password:</strong> </label></td>
-    <td><input id="password_login" type="password" placeholder="Unesite sifru" v-model="password"/></td>
-  </tr>
+  <div class="admin-panel">  
       <!-- User Panel -->
-      <span class="submit-wrapper">
-          <input v-if="isAuthorized==='false'" type="submit" value="Log In"/>
-          <div v-else><span class="ml-1 mt-2" id="pozdrav">Welcome {{username_show}}</span><span class="slicica-profil" :class="username_show"></span>
+      <div v-if="isAuthorized === 'true'">             
+            <span class="ml-1 mt-2" id="pozdrav">Welcome {{username_show}}</span><span class="slicica-profil" :class="username_show"></span>
             <input  @click="otkazivanje()" class=" bg-danger ml-1 mt-1"  type="button" value="Otkazi igru" v-show="isAuthorized ==='true' && !otkazani.some(e => e.username === username_show) "/>
             <input v-show="isAuthorized ==='true' && otkazani.some(e => e.username === username_show) && !players.some(e => e.name === username_show)" class="bg-primary mt-1 ml-1" @click="ponovnaPrijava()" type="button" value="Vrati se u neodredjene" /> 
             <input class="bg-info ml-1 mt-1"  @click="logout()" type="button" value="Log Out"/>   
@@ -23,12 +11,23 @@
               <input v-model="nova_sifra" id="promeni sifru" type="password" placeholder="Unesi novu sifru"/>{{" "}}
               <input v-model="provera_sifre" id="ponovi sifru" type="password" placeholder="Ponovi novu sifru"/>{{" "}}
               <input type="submit" value="Promeni sifru"/>
-            </form>
-          </div>
-      </span>
-      <!-- Kraj User Panela -->
-  </form>
-<!-- Kraj LogIn formulara -->
+            </form>   
+      </div>
+      
+      <!-- LogIn formular --> 
+      <form v-else class="login-form" @submit.prevent="autorizacija">
+        <tr >
+          <td><label  for="username_login" ><strong>Username:</strong> </label></td>
+          <td><input id="username_login" type="text" placeholder="Unesite username" v-model="username"/></td>
+        </tr>
+        <tr >
+          <td> <label for="password_login" ><strong>Password:</strong> </label></td>
+          <td><input id="password_login" type="password" placeholder="Unesite sifru" v-model="password"/></td>
+        </tr>
+        <input type="submit" value="Log In"/>
+      </form>
+      <!-- Kraj LogIn formulara -->
+    
 <div v-show="greska_prijava" class=" zauzeto alert alert-warning alert-dismissible fade show mt-2" role="alert">
     <strong>GRESKA!</strong> {{greska_prijava}}
     <button @click="greska_prijava=''" type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -79,6 +78,7 @@
 
   <ul><li v-show="!users.some(e => e.username == player.name)" v-for="player in players" :key="player.name"><span class="status prijavljen"></span>{{player.name}}<span class="slicica default"></span></li></ul>
 </div>
+<!-- Kraj User Panela -->
 </div>
 </template>
 
@@ -86,7 +86,6 @@
 
 export default {
   name: 'AdminPanel',
-  
   data(){
     return{
       users: [],
@@ -111,6 +110,7 @@ export default {
   },
 
   created(){
+    
     this.get_users()
     this.get_players()
     this.get_otkazane()
@@ -246,7 +246,9 @@ export default {
     }
   },
   computed:{
-
+uslov(){
+      return this.username == ""
+    }
   }
 }
 </script>
@@ -272,7 +274,7 @@ background-color: #268a53;
 
 }
 .admin-form{
-  background-color: #77a88c;
+  background-color: #80bb9a;
   border-radius: 10px;
   padding:15px 20px
 }
@@ -290,8 +292,8 @@ label{
   float: left;
   border-radius: 5px;
 }
-.login-form input[type=submit],
-.login-form input[type=button]
+.admin-panel input[type=submit],
+.admin-panel input[type=button]
 {
   padding: 5px 15px;
   color: white;
@@ -300,15 +302,13 @@ label{
   border-radius: 5px;
 
 }
-.login-form input[type=text],
-.login-form input[type=password]{
+.admin-panel input[type=text],
+.admin-panel input[type=password]{
   padding-left: 10px;
   border-radius: 5px;
   border: none;
 }
-/* .login-form input:focus{
- background-color:  rgb(255, 245, 211);
-} */
+
 .otkazi input[type=submit] {
   background:  rgb(226, 39, 39);
   color: white;
@@ -425,6 +425,12 @@ background-image: url('../assets/markov.jpg');
 }
 .rastko{
     background-image: url('../assets/rastko.jpg');
+}
+.vladimirm{
+    background-image: url('../assets/vladimirm.jpg');
+}
+.vukasink{
+    background-image: url('../assets/vukasink.jpg');
 }
 
 
