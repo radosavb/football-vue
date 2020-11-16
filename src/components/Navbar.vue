@@ -14,7 +14,7 @@
 export default {  
   data(){
     return{
-      termin: "Nedelja 15.11.2020"
+      termin: "Nedelja, 22.11.2020"
     }
   },
 }
