@@ -2,7 +2,7 @@
   <div >
     <!-- Uputstva za prijavu! -->
     <div v-show="username" id="uputstva">
-        > Za potvrdu dolaska se prijavi klikom na slobodnu poziciju (fudbalsku loptu) na terenu. Takodje mozes da prijavis gej drugara tako sto ces uneti njegovo ime i kliknuti na dugme "Prijavi drugara".<br>
+        > Za potvrdu dolaska se prijavi klikom na slobodnu poziciju (fudbalsku loptu) na terenu, potom klikni na svoju sliku. Takodje mozes da prijavis gej drugara tako sto ces uneti njegovo ime i kliknuti na dugme "Prijavi drugara".<br>
         > Za otkazivanje dolaska klikni na dugme "Otkazi igru" ili otkazi za drugara klikom na odgovarajuce crveno dugme.<br>
         > Ako si vec otkazao, ponovo se vrati u "neizjasnjene" klikom na plavo dugme.<br>
         <b class="text-danger">>>>Ako promena nije odmah prikzana ponovo učitaj stranicu!!!</b>
@@ -25,14 +25,20 @@
       </form>
     </div>
   </div>
-  <div v-show="zauzeto" class=" zauzeto alert alert-danger alert-dismissible fade show" role="alert">
+  <div v-show="zauzeto" class=" zauzeto alert alert-danger alert-dismissible" role="alert">
   <strong>Zauzeto!</strong> Izaberite drugu poziciju.
   <button @click="zauzeto=false" type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div v-show="obavestenje_reg_drugara" class=" alert alert-info alert-dismissible fade show" role="alert">
-  <strong>!</strong> {{obavestenje_reg_drugara}}
+<div v-show="uloguj_se" class="zauzeto alert alert-warning alert-dismissible " role="alert">
+  <strong>Niste ulogovani!</strong> Za prijavu se prvo ulogujte.
+  <button @click="uloguj_se=false" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div v-show="obavestenje_reg_drugara" class=" zauzeto alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Uspeh!</strong> {{obavestenje_reg_drugara}}
   <button @click="obavestenje_reg_drugara=''" type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -74,9 +80,10 @@ export default {
          username: localStorage.getItem('username'),
          tok: localStorage.getItem('token'),
          modal: false,
-         drugar: "",
+         drugar: '',
          moji_igraci:[],
          zauzeto: false,
+         uloguj_se: false,
          response: '',
          obavestenje_reg_drugara: '',
          kc: 0
@@ -94,10 +101,13 @@ export default {
       console.log('object')
     },
     modalf(){
-      if(this.pozicije.indexOf(this.polja[this.player_index].name) > -1){
+      if(this.pozicije.indexOf(this.polja[this.player_index].name) > -1 && this.username){
         this.modal = true
         this.zauzeto = false
-      }else{
+        this.uloguj_se = false
+      }else if(this.pozicije.indexOf(this.polja[this.player_index].name) > -1 && !this.username){
+        this.uloguj_se = true
+      } else{
         this.zauzeto = true
       }
     },
@@ -121,6 +131,8 @@ export default {
         body: JSON.stringify({ username: this.username, position: this.polja[this.player_index].position }),
       };
       fetch("https://flask-football-app.herokuapp.com/drugar/"+this.drugar, requestOptions)
+      .then(res => res.json())
+      .then(data =>{this.obavestenje_reg_drugara = data.message})
       
       const requestOptions1 = {
         method: "POST",
