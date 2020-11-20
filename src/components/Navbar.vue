@@ -4,6 +4,7 @@
         <span class="logo">Geh Football</span>
             
         <span class="termin">Sledeći termin:<b class="termin-datum"> {{termin}}</b></span>
+        <span >Sledeći termin:<b>Branch refactoring</b></span>
       </div>
   </nav> 
 </template>
@@ -14,7 +15,7 @@
 export default {  
   data(){
     return{
-      termin: "Nedelja, 22.11.2020"
+      termin: "Nedelja, 29.11.2020"
     }
   },
 }
