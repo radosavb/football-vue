@@ -1,4 +1,4 @@
-# fudbal-app
+# football-app
 
 With this app you can log in and apply, or apply a friend for a football game. You can also cancel coming for you or for a friend.  
 User profiles are predefined. Example (Username: markov, Password: markov).    
