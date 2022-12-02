@@ -1,7 +1,7 @@
 <template>
   <nav  class="nav-bar">
       <div>
-        <span class="logo">Geh Football</span>
+        <span class="logo">Football App</span>
             
         <span class="termin">Sledeći termin:<b class="termin-datum"> {{termin}}</b></span>
       </div>
