@@ -1,6 +1,6 @@
 <template>
       <div class="footer">
-        <strong>Copyright Geh Football 2020 &copy;</strong>
+        <strong>2020 &copy;</strong>
       </div>
 </template>
 
